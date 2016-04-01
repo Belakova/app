@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.a40122079.manageme" >
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.UPDATE_DEVICE_STATS"></uses-permission>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
 
 
 
@@ -20,17 +17,16 @@
             android:name=".Challenges"
             android:label="@string/title_activity_challenges" >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+
         </activity>
         <activity
             android:name=".Health"
             android:label="@string/title_activity_health" >
 
-        </activity>
+
+
+        </activity>goo
         <activity
             android:name=".Focus"
             android:label="@string/title_activity_focus" >
@@ -39,6 +35,13 @@
         <activity
             android:name=".Todo"
             android:label="@string/title_activity_todo" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
         <activity
             android:name=".SelectedHabits"

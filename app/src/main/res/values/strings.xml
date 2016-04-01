@@ -8,4 +8,23 @@
     <string name="title_activity_focus">Focus</string>
     <string name="title_activity_todo">Todo</string>
     <string name="title_activity_selected_habits">SelectedHabits</string>
+
+
+    <string-array name="habits">
+        <item>drink water</item>
+        <item>exercise for 20 minutes</item>
+        <item>stop smoking</item>
+        <item>eat fruits</item>
+        <item>stop procrastinating</item>
+        <item>get outside</item>
+        <item>smile</item>
+        <item>stop eating sweets</item>
+        <item>meditate for 15 minutes</item>
+        <item>be grateful</item>
+        <item>write a todo list</item>
+        <item>walk outside</item>
+        <item>go to sleep</item>
+    </string-array>
+
+
 </resources>

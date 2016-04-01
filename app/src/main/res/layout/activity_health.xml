@@ -5,24 +5,18 @@
     android:background="@drawable/background"
     tools:context="com.example.a40122079.manageme.Health">
 
-
     <Button
-        android:layout_marginLeft="300dp"
-        android:id="@+id/saveSelection"
-        android:background="#ffd5fffc"
-        android:text="Save"
-        android:textColor="#ff122aff"
-        android:layout_width="160px"
+        android:id="@+id/btnChecked"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        />
-
-    <ListView android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@android:id/list"
-        android:drawSelectorOnTop="false"
-       >
+        android:text="Get checked items">
+    </Button>
+    <ListView
+        android:id="@+id/lvMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     </ListView>
+
 
 
 

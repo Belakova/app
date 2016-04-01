@@ -1,66 +1,78 @@
 package com.example.a40122079.manageme;
 
-
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.AvoidXfermode;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.PrintWriter;
 
 
-public class Health extends ListActivity {
+public class Health extends Activity implements OnClickListener {
 
+    final String LOG_TAG = "myLogs";
+    FileOutputStream outputStream;
+    ListView lvMain;
+    String[] habits;
+    FileWriter writer;
 
-    int count = 0; // counter for the selection
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health);
 
-        final ArrayAdapter<Model> adapter = new InteractiveArrayAdapter(this,
-                getModel());
-        setListAdapter(adapter);
+        lvMain = (ListView) findViewById(R.id.lvMain);
+        // ????????????? ????? ?????? ??????? ??????
+        lvMain.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        // ??????? ???????, ????????? ?????? ?? ????? ????????
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.habits,android.R.layout.simple_list_item_multiple_choice);
+        lvMain.setAdapter(adapter);
 
-        Button save = (Button)findViewById(R.id.saveSelection);
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        Button btnChecked = (Button) findViewById(R.id.btnChecked);
+        btnChecked.setOnClickListener(this);
 
-                Intent next = new Intent(Health.this, SelectedHabits.class);
-                startActivity(next);
-            }
-        });
-}
-    private List<Model> getModel(){
-        List<Model>list=new ArrayList<Model>();
-        list.add(get("go for a walk"));
-        list.add(get("drink water"));
-        list.add(get("go for a walk"));
-        list.add(get("drink water"));
-        list.add(get("go for a walk"));
-        list.add(get("drink water"));
-        list.get(1).setSelected(true);
-        return list;
-    }
-
-    private Model get(String s){
-        return new Model(s);
+        // ???????? ?????? ?? ????? ????????
+        habits = getResources().getStringArray(R.array.habits);
     }
 
 
+    public void onClick(View arg0) {
+        // ????? ? ??? ?????????? ????????
+
+
+        Log.d(LOG_TAG, "checked: ");
+        SparseBooleanArray sbArray = lvMain.getCheckedItemPositions();
+        for (int i = 0; i < sbArray.size(); i++) {
+            int key = sbArray.keyAt(i);
+            if (sbArray.get(key))
+
+                try {
+                    outputStream = openFileOutput("habits.txt", Context.MODE_PRIVATE);
+                    outputStream.write(habits[key].getBytes());
+                    outputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            Intent next =new Intent(Health.this,SelectedHabits.class);
+            startActivity(next);
+               // Log.d(LOG_TAG, habits[key]);
 
 
 
 
+        }
+    }
 }
