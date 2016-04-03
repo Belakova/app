@@ -8,7 +8,7 @@
 
 
     <ListView
-        android:background="@android:color/holo_green_light"
+        android:background="@drawable/background"
         android:id="@+id/lvMain"
         android:layout_width="match_parent"
         android:layout_height="0dip"
@@ -18,7 +18,7 @@
     </ListView>
 
     <Button
-        android:background="#ff9feb6c"
+        android:background="#ff8bd368"
         android:textColor="#ff11490e"
         android:id="@+id/btnChecked"
         android:textSize="20dp"

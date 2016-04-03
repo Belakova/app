@@ -1,8 +1,6 @@
 package com.example.a40122079.manageme;
 
 import android.app.Activity;
-
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,15 +14,14 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 
-public class Health extends ListActivity implements OnClickListener {
-
+public class Health extends Activity implements OnClickListener {
     final String LOG_TAG = "myLogs";
     ArrayAdapter<String> adapter;
     ListView lvMain;
     String[] habits;
 
 
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health);
         lvMain = (ListView) findViewById(R.id.lvMain);
@@ -65,10 +62,5 @@ public class Health extends ListActivity implements OnClickListener {
 
 
         }
-
-
-
-
-
 
         }

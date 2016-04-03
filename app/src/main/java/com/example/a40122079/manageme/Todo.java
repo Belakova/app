@@ -19,7 +19,6 @@ import android.widget.AdapterView.OnItemClickListener;
 
 
 
-
 public class Todo extends Activity {
     public static final String APP_TAG = "yay";
     private ListView taskView;
@@ -27,11 +26,6 @@ public class Todo extends Activity {
     private EditText etNewTask;
     private TodoProvider provider;
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see android.app.Activity#onCreate(android.os.Bundle)
-     */
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -53,9 +47,6 @@ public class Todo extends Activity {
         }
     };
 
-    /**
-     * renders the task list
-     */
     private void renderTodo() {
         List<String> beans = provider.findAll();
         if (!beans.isEmpty()) {
@@ -64,7 +55,7 @@ public class Todo extends Activity {
             taskView.setAdapter(new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, beans.toArray(new String[]{})));
 
-            // dumb item deletion onclick
+            // item deletion
             taskView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view,

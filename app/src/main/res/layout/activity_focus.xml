@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
+    android:background="@drawable/background"
     android:layout_height="fill_parent"
     >
 
     <TextView
-
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="40pt"
         android:textSize="25dp"
         android:id="@+id/timer"
-        android:hint="Focus one hour"
-        android:layout_width="80pt"
+        android:hint="Stay focused one hour"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
 

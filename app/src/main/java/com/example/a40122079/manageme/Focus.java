@@ -31,9 +31,9 @@ public class Focus extends ActionBarActivity {
                 WifiManager wifiManager = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
                 wifiManager.setWifiEnabled(false);
 
-                new CountDownTimer(30000, 1000) {
+                new CountDownTimer(360000, 1000) {
                     public void onTick(long millisUntilFinished) {
-                        timer.setText("seconds remaining: " + millisUntilFinished / 1000);
+                        timer.setText("Time remaining: " + millisUntilFinished / 1000);
                     }
                     public void onFinish() {
                         timer.setText("You survived without wifi!");
@@ -55,7 +55,7 @@ public class Focus extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_focus, menu);
         return true;
     }
@@ -64,7 +64,7 @@ public class Focus extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_settings) {
             return true;
         }

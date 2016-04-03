@@ -25,7 +25,7 @@ public class Challenges extends ActionBarActivity {
         UsrName=(TextView)findViewById(R.id.Name);
         // getting the username
 
-        String name = getIntent().getExtras().getString("Username"+",");
+        String name = getIntent().getExtras().getString("Username");
         UsrName.setText(name);
 
     }

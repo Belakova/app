@@ -18,12 +18,12 @@ public class Receiver extends BroadcastReceiver {
     }
 
     public void showNotification(Context context) {
-        Intent intent = new Intent(context, Challenges.class);
+        Intent intent = new Intent(context, Health.class);
         PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.my_icon)
                 .setContentTitle("ManageMe app")
-                .setContentText("Don't forget about your list");
+                .setContentText("Don't forget about your new habits you want to adapt!");
         mBuilder.setContentIntent(pi);
         mBuilder.setDefaults(Notification.DEFAULT_SOUND);
         mBuilder.setAutoCancel(true);
