@@ -16,10 +16,10 @@
       android:layout_height="wrap_content" />
 
     <TextView
-        android:text="Select a challenge"
+        android:text="Challenge yourself"
         android:textSize="20dp"
         android:textColor="#ff52afff"
-        android:layout_marginBottom="25pt"
+        android:layout_marginBottom="15pt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -29,10 +29,11 @@
         android:onClick="Change"
         android:id="@+id/Healthier"
         android:text="Be healthier"
-        android:layout_width="70pt"
+        android:layout_width="80pt"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:background="#ffd5fffc"
+        android:background="#ffdbf7ff"
+        android:textColor="#ff03654f"
           />
 
 
@@ -41,10 +42,11 @@
         android:onClick="Change"
         android:id="@+id/Focus"
         android:text="Focus on work"
-        android:layout_width="70pt"
+        android:layout_width="80pt"
+        android:textColor="#ff03654f"
         android:layout_marginBottom="20dp"
         android:layout_height="wrap_content"
-        android:background="#ffd5fffc"
+        android:background="#ffdbf7ff"
         />
 
     <Button
@@ -52,9 +54,10 @@
         android:onClick="Change"
         android:id="@+id/Todo"
         android:text="To do List"
-        android:layout_width="70pt"
+        android:layout_width="80pt"
+        android:textColor="#ff03654f"
         android:layout_height="wrap_content"
-        android:background="#ffd5fffc"
+        android:background="#ffdbf7ff"
         />
 
 </LinearLayout>

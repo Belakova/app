@@ -6,20 +6,37 @@
     >
 
     <TextView
-        android:id="@+id/wifistate"
-        android:layout_width="fill_parent"
+
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40pt"
+        android:textSize="25dp"
+        android:id="@+id/timer"
+        android:hint="Focus one hour"
+        android:layout_width="80pt"
         android:layout_height="wrap_content"
         />
+
     <Button
-        android:id="@+id/onwifi"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Turn Wifi On"
-        />
-    <Button
+        android:layout_marginTop="30pt"
+        android:textSize="24dp"
         android:id="@+id/offwifi"
-        android:layout_width="fill_parent"
+        android:background="#ffff790f"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="150pt"
         android:layout_height="wrap_content"
-        android:text="Turn Wifi Off"
+        android:text="Turn off wifi"
         />
+
+
+    <Button
+        android:layout_marginTop="5pt"
+        android:textSize="24dp"
+        android:background="#ffbaff72"
+        android:visibility="invisible"
+    android:id="@+id/onwifi"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="150pt"
+    android:layout_height="wrap_content"
+    android:text="Turn Wifi On"
+    />
 </LinearLayout>

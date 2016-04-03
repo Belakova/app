@@ -1,7 +1,8 @@
 package com.example.a40122079.manageme;
 
 import android.app.Activity;
-import android.content.Context;
+
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,67 +13,62 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 
 
-public class Health extends Activity implements OnClickListener {
+public class Health extends ListActivity implements OnClickListener {
 
     final String LOG_TAG = "myLogs";
-    FileOutputStream outputStream;
+    ArrayAdapter<String> adapter;
     ListView lvMain;
     String[] habits;
-    FileWriter writer;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health);
-
         lvMain = (ListView) findViewById(R.id.lvMain);
-        // ????????????? ????? ?????? ??????? ??????
-        lvMain.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        // ??????? ???????, ????????? ?????? ?? ????? ????????
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this, R.array.habits,android.R.layout.simple_list_item_multiple_choice);
-        lvMain.setAdapter(adapter);
-
         Button btnChecked = (Button) findViewById(R.id.btnChecked);
+
+        habits = getResources().getStringArray(R.array.habits); // the array of all habits
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_multiple_choice, habits);
+        //
+        lvMain.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        //
+        lvMain.setAdapter(adapter);
         btnChecked.setOnClickListener(this);
 
-        // ???????? ?????? ?? ????? ????????
-        habits = getResources().getStringArray(R.array.habits);
+
     }
 
-
     public void onClick(View arg0) {
-        // ????? ? ??? ?????????? ????????
-
-
+        //
         Log.d(LOG_TAG, "checked: ");
-        SparseBooleanArray sbArray = lvMain.getCheckedItemPositions();
-        for (int i = 0; i < sbArray.size(); i++) {
-            int key = sbArray.keyAt(i);
-            if (sbArray.get(key))
+        SparseBooleanArray checked = lvMain.getCheckedItemPositions();
+        ArrayList<String>arr_selected =new ArrayList<String>(); // to store selected items
+        for (int i = 0; i < checked.size(); i++) {
+            int position = checked.keyAt(i);
+            if (checked.valueAt(i))
+                arr_selected.add(adapter.getItem(position));
+        }
 
-                try {
-                    outputStream = openFileOutput("habits.txt", Context.MODE_PRIVATE);
-                    outputStream.write(habits[key].getBytes());
-                    outputStream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        String[]outputStrArr =new String [arr_selected.size()];
+        for (int i=0; i<arr_selected.size();i++){
+            outputStrArr[i]=arr_selected.get(i);
+        }
 
-            Intent next =new Intent(Health.this,SelectedHabits.class);
+            Intent next =new Intent(getApplicationContext(),SelectedHabits.class);
+        Bundle b =new Bundle();
+        b.putStringArray("val",outputStrArr);
+         next.putExtras(b);
             startActivity(next);
-               // Log.d(LOG_TAG, habits[key]);
+
+
+        }
+
+
 
 
 
 
         }
-    }
-}

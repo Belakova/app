@@ -1,110 +1,84 @@
 package com.example.a40122079.manageme;
 
-import android.app.AlertDialog;
-import android.app.ListActivity;
 
-        import android.content.ContentValues;
-        import android.content.DialogInterface;
-        import android.database.Cursor;
-        import android.database.sqlite.SQLiteDatabase;
-        import android.os.Bundle;
-        import android.view.Menu;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.widget.EditText;
-        import android.widget.ListAdapter;
-        import android.widget.SimpleCursorAdapter;
-        import android.widget.TextView;
 
-public class Todo extends ListActivity {
-    private ListAdapter todoListAdapter;
-    private TodoListSQLHelper todoListSQLHelper;
+import java.util.List;
 
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+
+
+
+
+public class Todo extends Activity {
+    public static final String APP_TAG = "yay";
+    private ListView taskView;
+    private Button btNewTask;
+    private EditText etNewTask;
+    private TodoProvider provider;
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see android.app.Activity#onCreate(android.os.Bundle)
+     */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         setContentView(R.layout.activity_todo);
-        updateTodoList();
+        provider = new TodoProvider(this);
+        taskView = (ListView) findViewById(R.id.taskList);
+        btNewTask = (Button) findViewById(R.id.btNewTask);
+        etNewTask = (EditText) findViewById(R.id.etNewTask);
+        btNewTask.setOnClickListener(handleNewTaskEvent);
+        renderTodo();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_todo, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_add_task:
-                AlertDialog.Builder todoTaskBuilder = new AlertDialog.Builder(this);
-                todoTaskBuilder.setTitle("Add Todo Task Item");
-                todoTaskBuilder.setMessage("describe the Todo task...");
-                final EditText todoET = new EditText(this);
-                todoTaskBuilder.setView(todoET);
-                todoTaskBuilder.setPositiveButton("Add Task", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String todoTaskInput = todoET.getText().toString();
-                        todoListSQLHelper = new TodoListSQLHelper(Todo.this);
-                        SQLiteDatabase sqLiteDatabase = todoListSQLHelper.getWritableDatabase();
-                        ContentValues values = new ContentValues();
-                        values.clear();
-
-                        //write the Todo task input into database table
-                        values.put(TodoListSQLHelper.COL1_TASK, todoTaskInput);
-                        sqLiteDatabase.insertWithOnConflict(TodoListSQLHelper.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_IGNORE);
-
-                        //update the Todo task list UI
-                        updateTodoList();
-                    }
-                });
-
-                todoTaskBuilder.setNegativeButton("Cancel", null);
-
-                todoTaskBuilder.create().show();
-                return true;
-
-            default:
-                return false;
+    private OnClickListener handleNewTaskEvent = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Log.d(APP_TAG, "add task click received");
+            provider.addTask(etNewTask.getText().toString());
+            renderTodo();
         }
-    }
+    };
 
-    //update the todo task list UI
-    private void updateTodoList() {
-        todoListSQLHelper = new TodoListSQLHelper(Todo.this);
-        SQLiteDatabase sqLiteDatabase = todoListSQLHelper.getReadableDatabase();
+    /**
+     * renders the task list
+     */
+    private void renderTodo() {
+        List<String> beans = provider.findAll();
+        if (!beans.isEmpty()) {
+            Log.d(APP_TAG, String.format("%d beans found", beans.size()));
+            // render the list
+            taskView.setAdapter(new ArrayAdapter<String>(this,
+                    android.R.layout.simple_list_item_1, beans.toArray(new String[]{})));
 
-        //cursor to read todo task list from database
-        Cursor cursor = sqLiteDatabase.query(TodoListSQLHelper.TABLE_NAME,
-                new String[]{TodoListSQLHelper._ID, TodoListSQLHelper.COL1_TASK},
-                null, null, null, null, null);
+            // dumb item deletion onclick
+            taskView.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    Log.d(APP_TAG, String.format(
+                            "item with id: %d and position: %d", id, position));
+                    TextView v = (TextView) view;
+                    provider.deleteTask(v.getText().toString());
 
-        //binds the todo task list with the UI
-        todoListAdapter = new SimpleCursorAdapter(
-                this,
-                R.layout.todotask,
-                cursor,
-                new String[]{TodoListSQLHelper.COL1_TASK},
-                new int[]{R.id.todoTaskTV},
-                0
-        );
-
-        this.setListAdapter(todoListAdapter);
-    }
-
-    //closing the todo task item
-    public void onDoneButtonClick(View view) {
-        View v = (View) view.getParent();
-        TextView todoTV = (TextView) v.findViewById(R.id.todoTaskTV);
-        String todoTaskItem = todoTV.getText().toString();
-
-        String deleteTodoItemSql = "DELETE FROM " + TodoListSQLHelper.TABLE_NAME +
-                " WHERE " + TodoListSQLHelper.COL1_TASK + " = '" + todoTaskItem + "'";
-
-        todoListSQLHelper = new TodoListSQLHelper(Todo.this);
-        SQLiteDatabase sqlDB = todoListSQLHelper.getWritableDatabase();
-        sqlDB.execSQL(deleteTodoItemSql);
-        updateTodoList();
+                    renderTodo();
+                }
+            });
+        } else {
+            Log.d(APP_TAG, "no tasks found");
+        }
     }
 }

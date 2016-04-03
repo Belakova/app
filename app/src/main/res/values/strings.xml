@@ -8,6 +8,10 @@
     <string name="title_activity_focus">Focus</string>
     <string name="title_activity_todo">Todo</string>
     <string name="title_activity_selected_habits">SelectedHabits</string>
+    <string name="add_button_name">Add</string>
+    <string name="change_time">Change the time</string>
+
+
 
 
     <string-array name="habits">
@@ -25,6 +29,9 @@
         <item>walk outside</item>
         <item>go to sleep</item>
     </string-array>
+
+
+
 
 
 </resources>

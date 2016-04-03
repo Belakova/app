@@ -1,23 +1,50 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
+    android:orientation="vertical"
     tools:context="com.example.a40122079.manageme.SelectedHabits">
 
-
+    <TextView
+        android:id="@+id/txt_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <ListView
         android:id="@+id/listView1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        >
     </ListView>
 
-    <Button
-        android:layout_above="@+id/listView1"
+
+    <TextView android:id="@+id/timeDisplay"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pick time"
-        android:onClick="showTime"
-        android:background="#ffd5fffc"
+        android:text=""/>
+
+
+
+    <Button
+
+        android:id="@+id/notifyMe"
+        android:background="#ff9ae068"
+        android:textColor="#ff11490e"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Notify me"/>
+
+    <Button
+
+        android:id="@+id/Share"
+        android:background="#ff8bd368"
+        android:textColor="#ff11490e"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Share"
         />
 
-</RelativeLayout>
+
+</LinearLayout>
