@@ -25,26 +25,46 @@
         android:layout_height="wrap_content"
         android:text=""/>
 
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:layout_marginLeft="15pt"
+    >
 
+    <Button
+        android:id="@+id/SavetoDB"
+        android:text="Save"
+        android:background="#ff84c563"
+        android:textColor="#ff11490e"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10pt"
+        >
+
+    </Button>
 
     <Button
 
         android:id="@+id/notifyMe"
-        android:background="#ff9ae068"
+        android:background="#ffd6862d"
         android:textColor="#ff11490e"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Notify me"/>
+        android:text="Notify me"
+        android:layout_marginRight="10pt"/>
 
     <Button
 
         android:id="@+id/Share"
-        android:background="#ff8bd368"
+        android:background="#ff78b2d3"
         android:textColor="#ff11490e"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Share"
+        android:layout_marginRight="10pt"
         />
-
+     </LinearLayout>
 
 </LinearLayout>

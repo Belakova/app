@@ -15,6 +15,12 @@
             android:name=".Login"
             android:label="@string/app_name" >
 
+        </activity>
+
+        <activity
+            android:name=".Challenges"
+            android:label="@string/title_activity_challenges" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,13 +29,10 @@
         </activity>
 
         <activity
-            android:name=".Challenges"
-            android:label="@string/title_activity_challenges" >
-        </activity>
-
-        <activity
             android:name=".Health"
             android:label="@string/title_activity_health" >
+
+
         </activity>
 
         <activity
@@ -49,6 +52,7 @@
         <receiver android:name="com.example.a40122079.manageme.Receiver"></receiver>
 
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-sdk android:minSdkVersion="7" />
 

@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class Focus extends ActionBarActivity {
 
@@ -22,7 +24,7 @@ public class Focus extends ActionBarActivity {
         Button OffWifi = (Button)findViewById(R.id.offwifi);
         final TextView timer = (TextView)findViewById(R.id.timer);
 
-
+        final String FORMAT = "%02d:%02d:%02d";
         //disables wifi
         OffWifi.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -30,11 +32,18 @@ public class Focus extends ActionBarActivity {
                 OnWifi.setVisibility(View.INVISIBLE);
                 WifiManager wifiManager = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
                 wifiManager.setWifiEnabled(false);
-
-                new CountDownTimer(360000, 1000) {
+                new CountDownTimer(3600000, 1000) {
                     public void onTick(long millisUntilFinished) {
-                        timer.setText("Time remaining: " + millisUntilFinished / 1000);
+                       timer.setText(""+String.format(FORMAT,
+                                TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
+                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(
+                                        TimeUnit.MILLISECONDS.toHours(millisUntilFinished)),
+                                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
                     }
+
+                    //   timer.setText("Time remaining: " + millisUntilFinished / 1000);
+
                     public void onFinish() {
                         timer.setText("You survived without wifi!");
                         OnWifi.setVisibility(View.VISIBLE);
