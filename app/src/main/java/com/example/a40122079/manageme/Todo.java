@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 
-
 public class Todo extends Activity {
     public static final String APP_TAG = "yay";
     private ListView taskView;
@@ -55,17 +54,27 @@ public class Todo extends Activity {
             taskView.setAdapter(new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, beans.toArray(new String[]{})));
 
-            // item deletion
-            taskView.setOnItemClickListener(new OnItemClickListener() {
+            taskView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
                     Log.d(APP_TAG, String.format(
                             "item with id: %d and position: %d", id, position));
                     TextView v = (TextView) view;
                     provider.deleteTask(v.getText().toString());
 
                     renderTodo();
+
+                    return false;
+                }
+            });
+
+            // item deletion
+            taskView.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+                    TextView v = (TextView)view;
+                   v.setTextColor (0xff888888);
                 }
             });
         } else {

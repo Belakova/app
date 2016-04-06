@@ -13,9 +13,10 @@
         android:layout_below="@+id/taskList"
         android:layout_alignParentLeft="true"
         >
+
         <EditText
             android:id="@+id/etNewTask"
-            android:layout_width="700px"
+            android:layout_width="750px"
             android:layout_height="wrap_content"
             android:hint="type here .. "
             android:textColor="#ff5c5a50"
@@ -23,11 +24,12 @@
             >
         </EditText>
         <Button
-            android:background="#ffdbf7ff"
-            android:textColor="#ff03654f"
+
+            android:background="@drawable/buttonshape"
+            android:textColor="#283D16"
             android:id="@+id/btNewTask"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="135dp"
+            android:layout_height="50dp"
             android:text="@string/add_button_name"
             >
         </Button>

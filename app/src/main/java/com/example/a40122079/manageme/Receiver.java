@@ -23,11 +23,12 @@ public class Receiver extends BroadcastReceiver {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.my_icon)
                 .setContentTitle("ManageMe app")
-                .setContentText("Don't forget about your new habits you want to adapt!");
+                .setContentText("Don't forget about your new habits you want to adapt!" + getResultData());
         mBuilder.setContentIntent(pi);
         mBuilder.setDefaults(Notification.DEFAULT_SOUND);
         mBuilder.setAutoCancel(true);
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(0, mBuilder.build());
+
     }
 }

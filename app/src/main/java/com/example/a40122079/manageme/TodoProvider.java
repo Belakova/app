@@ -1,7 +1,7 @@
 package com.example.a40122079.manageme;
 
 /**
- * Created by 40122079 on 03/04/2016.
+ * Created by 40122079 on 01/04/2016.
  */
 
 import java.util.ArrayList;
@@ -32,7 +32,6 @@ public class TodoProvider {
                 db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
                 onCreate(db);
             }
-
             @Override
             public void onCreate(SQLiteDatabase db) {
                 db.execSQL(DB_CREATE_QUERY);
@@ -62,7 +61,6 @@ public class TodoProvider {
         data.put("title", title);
         storage.insert(TABLE_NAME, null, data);
     }
-
     public void deleteTask(String title) {
         storage.delete(TABLE_NAME, "title='" + title + "'", null);
     }

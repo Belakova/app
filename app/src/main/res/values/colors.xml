@@ -3,4 +3,5 @@
 
     <drawable name="pressed_color">#ff47a9fe</drawable>
     <drawable name="default_color">#ff99ddf2</drawable>
+
 </resources>

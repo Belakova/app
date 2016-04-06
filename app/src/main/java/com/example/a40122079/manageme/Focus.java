@@ -32,7 +32,7 @@ public class Focus extends ActionBarActivity {
                 OnWifi.setVisibility(View.INVISIBLE);
                 WifiManager wifiManager = (WifiManager)getBaseContext().getSystemService(Context.WIFI_SERVICE);
                 wifiManager.setWifiEnabled(false);
-                new CountDownTimer(3600000, 1000) {
+                new CountDownTimer(10000, 1000) {//3600000
                     public void onTick(long millisUntilFinished) {
                        timer.setText(""+String.format(FORMAT,
                                 TimeUnit.MILLISECONDS.toHours(millisUntilFinished),
@@ -41,8 +41,6 @@ public class Focus extends ActionBarActivity {
                                 TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
                                         TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
                     }
-
-                    //   timer.setText("Time remaining: " + millisUntilFinished / 1000);
 
                     public void onFinish() {
                         timer.setText("You survived without wifi!");

@@ -13,7 +13,6 @@
 
 
 
-
     <string-array name="habits">
         <item>drink water</item>
         <item>exercise for 20 minutes</item>
@@ -28,6 +27,18 @@
         <item>write a todo list</item>
         <item>walk outside</item>
         <item>go to sleep</item>
+        <item> get some sun  </item>
+        <item> call a friend or relative </item>
+        <item> paint a picture </item>
+        <item> read for 20 minutes  </item>
+        <item> take a nap </item>
+        <item> repeat mantra in your head </item>
+        <item> make a new friend </item>
+        <item> relax for 15 minutes </item>
+        <item> do not drink alcohol  </item>
+        <item> avoid cream and sugar </item>
+        <item> hug someone every day  </item>
+        <item> stop eating fried food  </item>
     </string-array>
 
 

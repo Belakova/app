@@ -11,7 +11,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HealthDB extends SQLiteOpenHelper {
+public class HealthDB {
 
     public SQLiteDatabase DB;
     public String DBPath;
@@ -22,37 +22,36 @@ public class HealthDB extends SQLiteOpenHelper {
     private static String LOG_TAG = "PopulateDatabase";
     // Contacts Table Column habit
     private static final String KEY_HABITS = "habit";
+    private SQLiteDatabase storage;
+    private SQLiteOpenHelper helper;
 
 
+    public HealthDB(Context ctx) {
+        helper = new SQLiteOpenHelper(ctx, DBName, null, version) {
+            @Override
+            public void onUpgrade(SQLiteDatabase db, int oldVersion,
+                                  int newVersion) {
+                db.execSQL("DROP TABLE IF EXISTS " + tableName);
+                onCreate(db);
+            }
 
-    public HealthDB(Context context) {
-        super(context, DBName, null, version);
-        currentContext = context;
-      //  DBPath = "/data/data/" + context.getPackageName() + "/databases";
+            @Override
+            public void onCreate(SQLiteDatabase db) {
+                db.execSQL("CREATE TABLE " +tableName + "("
+                        + KEY_HABITS + " TEXT PRIMARY KEY" +")");
+            }
+        };
+        storage = helper.getWritableDatabase();
     }
 
-   //Create a table
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String createTable = "CREATE TABLE " +tableName + "("
-                + KEY_HABITS + " TEXT PRIMARY KEY" +")";
-        db.execSQL(createTable);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + tableName);
-        onCreate(db);
-    }
 
 
 //adding habits
     public boolean add(String habit) {
         try {
-            SQLiteDatabase db = this.getWritableDatabase();
             ContentValues row=new ContentValues();
             row.put(KEY_HABITS, habit);
-            db.insert(tableName, null, row);
+            storage.insert(tableName, null, row);
             Log.i(LOG_TAG, String.format("(%s) inserted", habit));
         }
 
@@ -63,15 +62,23 @@ public class HealthDB extends SQLiteOpenHelper {
         }
 
 
+    public void add1 (String habit) {
+        ContentValues data = new ContentValues();
+        data.put(KEY_HABITS, habit);
+        storage.insert(tableName, null, data);
+    }
+
+
+
 //getting selected
     public List<String> getHabits(){
-        SQLiteDatabase db = this.getReadableDatabase();
         Log.d(Todo.APP_TAG, "getHabits triggered");
         List<String> list = new ArrayList<String>();
-        Cursor c = db.rawQuery("SELECT KEY_HABITS FROM tableName", null);
+        Cursor c = storage.query(tableName, new String[]{"habit"}, null,
+                null, null, null, null);
         if (c != null) {
             c.moveToFirst();
-            while (c.isAfterLast() == false) {
+            while (c.isAfterLast() == false){
                list.add(c.getString(0));
                 c.moveToNext();
             }
@@ -80,7 +87,6 @@ public class HealthDB extends SQLiteOpenHelper {
         }
         return list;
     }
-
 
 
 

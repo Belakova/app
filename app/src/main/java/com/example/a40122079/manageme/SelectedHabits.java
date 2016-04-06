@@ -2,15 +2,15 @@ package com.example.a40122079.manageme;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.Instrumentation;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,42 +19,37 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
 
 
 public class SelectedHabits extends Activity {
-    TextView time,txt_time;
-    Button pickTime,notifyMe,share,saveToDB;
+    TextView time;
+    Button pickTime,notifyMe,share,saveToDB ;
     ListView listView1;
 
-
-
-
-    @Override
+     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_habits);
+         //set the time for notification every day
+         final Calendar alarmStartTime = Calendar.getInstance();
+         int day = alarmStartTime.get(Calendar.DAY_OF_WEEK_IN_MONTH);
+
+         TextView showDate=(TextView)findViewById(R.id.ShowDate);
+         showDate.setText(day);
+
         listView1 = (ListView)findViewById(R.id.listView1);
-        txt_time=(TextView)findViewById(R.id.txt_time);
         time=(TextView)findViewById(R.id.timeDisplay);
         pickTime=(Button)findViewById(R.id.pickTime);
         Bundle b = getIntent().getExtras();
         final String[] result = b.getStringArray("val");
 
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,result);
         listView1.setAdapter(adapter);
         Toast.makeText(getBaseContext(), "Try to stick to your new habits!",  Toast.LENGTH_LONG).show();
-
 
         //Share button -> you can Share your Habit list screenShot here
         share = (Button)findViewById(R.id.Share);
@@ -65,7 +60,6 @@ public class SelectedHabits extends Activity {
                 View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
                 rootView.setDrawingCacheEnabled(true);
                 Bitmap bm = rootView.getDrawingCache();
-                BitmapDrawable bitmapDrawable = new BitmapDrawable(bm);
 
                 //sharing
                 Intent share = new Intent(Intent.ACTION_SEND);
@@ -83,48 +77,43 @@ public class SelectedHabits extends Activity {
                 } catch (Exception e) {
                     System.err.println(e.toString());
                 }
-                share.putExtra(Intent.EXTRA_STREAM,uri);//uri was here
+                share.putExtra(Intent.EXTRA_STREAM, uri);//uri was here
                 startActivity(Intent.createChooser(share, "Share screenshot using:"));
-             }
+            }
         });
 
-        //set the time for notification every day
-        final Calendar alarmStartTime = Calendar.getInstance();
-        alarmStartTime.set(Calendar.HOUR_OF_DAY, 8);
-        alarmStartTime.set(Calendar.MINUTE, 0);
-        alarmStartTime.set(Calendar.SECOND, 0);
+
+
 
         //Notify Button show notifications
         notifyMe=(Button)findViewById(R.id.notifyMe);
         notifyMe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SelectedHabits.this, Receiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(SelectedHabits.this,0,intent, 0);
-                AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-                am.setRepeating(am.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), am.INTERVAL_DAY,pendingIntent);
+                  alarmStartTime.set(Calendar.HOUR_OF_DAY, 8);
+                  alarmStartTime.set(Calendar.MINUTE, 30);
+                  alarmStartTime.set(Calendar.SECOND, 00);
+                 Intent intent = new Intent(SelectedHabits.this, Receiver.class);
+                 PendingIntent pendingIntent = PendingIntent.getBroadcast(SelectedHabits.this,0,intent, 0);
+                 AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                 am.setRepeating(am.RTC_WAKEUP, System.currentTimeMillis(),am.INTERVAL_DAY, pendingIntent);//every 4 hours //am.INTERVAL_DAY
             }
         });
 
          final HealthDB db = new HealthDB(this);
+         //Not working
         //Save Button to sqlite DB -> HealthDB
         saveToDB=(Button)findViewById(R.id.SavetoDB);
         saveToDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i=0; i<result.length;i++){
-                    db.add(result.toString());
-                    String [] s= databaseList(); // Put extra as Intent after
-                    Toast.makeText(getBaseContext(),"Your list has been saved", Toast.LENGTH_SHORT).show();
-                    //Intent saved = new Intent(SelectedHabits.this,MenuSelected.class);
-                    // Bundle b = new Bundle();
-                    //  b.putStringArray("my",s);
-                    //  saved.putExtras(b);
-                }
+             //   for (int i=0; i<result.length;i++){
+            //        db.add(result.toString());  }
+                Toast.makeText(getBaseContext(),"Your list has been saved", Toast.LENGTH_SHORT).show();
             }
-        });
+        });}
 
-    }
+
 
 
     @Override

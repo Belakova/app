@@ -8,6 +8,7 @@
 
     <TextView
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:layout_marginTop="40pt"
         android:textSize="25dp"
         android:id="@+id/timer"
@@ -31,7 +32,7 @@
     <Button
         android:layout_marginTop="5pt"
         android:textSize="24dp"
-        android:background="#ffbaff72"
+        android:background="#ff90c45a"
         android:visibility="invisible"
     android:id="@+id/onwifi"
         android:layout_gravity="center_horizontal"

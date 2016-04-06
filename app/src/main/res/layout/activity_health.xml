@@ -18,8 +18,12 @@
     </ListView>
 
     <Button
-        android:background="#ff8bd368"
-        android:textColor="#ff11490e"
+        android:textColor="#283D16"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="11"
         android:id="@+id/btnChecked"
         android:textSize="20dp"
         android:layout_width="match_parent"
