@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 /**
- * Created by 40122079 on 03/04/2016.
+ * Created by 40122079 on 01/04/2016.
  */
 public class Receiver extends BroadcastReceiver {
     @Override

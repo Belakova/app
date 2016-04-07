@@ -1,7 +1,7 @@
 package com.example.a40122079.manageme;
 
 /**
- * Created by 40122079 on 06/04/2016.
+ * Created by 40122079 on 02/04/2016.
  */
 import android.content.ContentValues;
 import android.content.Context;
@@ -24,7 +24,7 @@ public class HabitsAdapter {
     private SQLiteDatabase mDb;
 
     private static final String DATABASE_NAME = "World";
-    private static final String SQLITE_TABLE = "Country";
+    private static final String SQLITE_TABLE = "Habits";
     private static final int DATABASE_VERSION = 1;
 
     private final Context mCtx;
@@ -80,13 +80,7 @@ public class HabitsAdapter {
         return mDb.insert(SQLITE_TABLE, null, initialValues);
     }
 
-    public boolean deleteAllCountries() {
-        int doneDelete = 0;
-        doneDelete = mDb.delete(SQLITE_TABLE, null , null);
-        Log.w(TAG, Integer.toString(doneDelete));
-        return doneDelete > 0;
 
-    }
 
     void addListItem(ArrayList<String> listItem) {
         mDb = mDbHelper.getWritableDatabase();
@@ -107,27 +101,8 @@ public class HabitsAdapter {
     }
 
 
-    public Cursor fetchCountriesByName(String inputText) throws SQLException {
-        Log.w(TAG, inputText);
-        Cursor mCursor = null;
-        if (inputText == null  ||  inputText.length () == 0)  {
-            mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_HABIT},
-                    null, null, null, null, null);
 
-        }
-        else {
-            mCursor = mDb.query(true, SQLITE_TABLE, new String[] {KEY_HABIT},
-                    KEY_HABIT+ " like '%" + inputText + "%'", null,
-                    null, null, null, null);
-        }
-        if (mCursor != null) {
-            mCursor.moveToFirst();
-        }
-        return mCursor;
-
-    }
-
-    public Cursor fetchAllCountries() {
+    public Cursor fetchAll() {
 
         Cursor mCursor = mDb.query(SQLITE_TABLE, new String[] {KEY_HABIT},
                 null, null, null, null, null);
@@ -138,7 +113,7 @@ public class HabitsAdapter {
         return mCursor;
     }
 
-    public void insertSomeCountries() {
+    public void insertSome() {
         createCountry("Smile");
         createCountry("Walk");
         createCountry("Drink water");

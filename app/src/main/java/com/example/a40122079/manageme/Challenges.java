@@ -44,7 +44,9 @@ public class Challenges extends ActionBarActivity {
                 Intent three= new Intent(Challenges.this,Todo.class);
                 startActivity(three);
                 break;
-
+            case R.id.MyList:
+                Intent myList=new Intent(Challenges.this,SelectedHabits.class);
+                startActivity(myList);
         }
     }
 

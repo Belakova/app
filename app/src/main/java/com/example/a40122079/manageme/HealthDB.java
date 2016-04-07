@@ -24,9 +24,11 @@ public class HealthDB {
     private static final String KEY_HABITS = "habit";
     private SQLiteDatabase storage;
     private SQLiteOpenHelper helper;
+    private static HealthDB instance;
+
+    private HealthDB(Context ctx) {
 
 
-    public HealthDB(Context ctx) {
         helper = new SQLiteOpenHelper(ctx, DBName, null, version) {
             @Override
             public void onUpgrade(SQLiteDatabase db, int oldVersion,
@@ -43,6 +45,17 @@ public class HealthDB {
         };
         storage = helper.getWritableDatabase();
     }
+
+    //one instance of db
+    public static HealthDB getInstance(Context ctx){
+        if (instance == null){
+            instance = new HealthDB(ctx);
+        }
+        else{
+            return  instance;
+        }
+          return instance;
+        }
 
 
 
@@ -68,14 +81,17 @@ public class HealthDB {
         storage.insert(tableName, null, data);
     }
 
+    public void delete(String title) {
+        storage.delete(tableName, KEY_HABITS + title + "'", null);
+    }
 
 
 //getting selected
     public List<String> getHabits(){
         Log.d(Todo.APP_TAG, "getHabits triggered");
         List<String> list = new ArrayList<String>();
-        Cursor c = storage.query(tableName, new String[]{"habit"}, null,
-                null, null, null, null);
+        Cursor c = storage.query(tableName, new String[] {KEY_HABITS},
+                null, null, null, null, null);
         if (c != null) {
             c.moveToFirst();
             while (c.isAfterLast() == false){

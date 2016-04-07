@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -27,28 +28,22 @@ import java.util.Calendar;
 
 public class SelectedHabits extends Activity {
     TextView time;
-    Button pickTime,notifyMe,share,saveToDB ;
+    Button notifyMe,share,saveToDB ;
     ListView listView1;
 
      @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_habits);
-         //set the time for notification every day
+         listView1 = (ListView)findViewById(R.id.listView1);
+         time=(TextView)findViewById(R.id.timeDisplay);
+
+         final HealthDB db =HealthDB.getInstance(this);//calling singleton
+         ArrayAdapter<String>adapter1=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,db.getHabits());
+         listView1.setAdapter(adapter1);
+
+
          final Calendar alarmStartTime = Calendar.getInstance();
-         int day = alarmStartTime.get(Calendar.DAY_OF_WEEK_IN_MONTH);
-
-         TextView showDate=(TextView)findViewById(R.id.ShowDate);
-         showDate.setText(day);
-
-        listView1 = (ListView)findViewById(R.id.listView1);
-        time=(TextView)findViewById(R.id.timeDisplay);
-        pickTime=(Button)findViewById(R.id.pickTime);
-        Bundle b = getIntent().getExtras();
-        final String[] result = b.getStringArray("val");
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,result);
-        listView1.setAdapter(adapter);
         Toast.makeText(getBaseContext(), "Try to stick to your new habits!",  Toast.LENGTH_LONG).show();
 
         //Share button -> you can Share your Habit list screenShot here
@@ -91,25 +86,40 @@ public class SelectedHabits extends Activity {
             @Override
             public void onClick(View v) {
                   alarmStartTime.set(Calendar.HOUR_OF_DAY, 8);
-                  alarmStartTime.set(Calendar.MINUTE, 30);
+                  alarmStartTime.set(Calendar.MINUTE, 00);
                   alarmStartTime.set(Calendar.SECOND, 00);
                  Intent intent = new Intent(SelectedHabits.this, Receiver.class);
                  PendingIntent pendingIntent = PendingIntent.getBroadcast(SelectedHabits.this,0,intent, 0);
                  AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                  am.setRepeating(am.RTC_WAKEUP, System.currentTimeMillis(),am.INTERVAL_DAY, pendingIntent);//every 4 hours //am.INTERVAL_DAY
+                Toast.makeText(getBaseContext(), "You will be notififed daily at 8 am",  Toast.LENGTH_LONG).show();
             }
         });
+      this.listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+          @Override
+          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            //  String item=(String)(listView1.getItemAtPosition(position));
+            //  int ItemId = listView1.indexOfChild(item);
+            //  db.delete(ItemId);
 
-         final HealthDB db = new HealthDB(this);
+          }
+      });
+
+
          //Not working
-        //Save Button to sqlite DB -> HealthDB
+        //Delete Button from sqlite DB -> HealthDB
         saveToDB=(Button)findViewById(R.id.SavetoDB);
         saveToDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   for (int i=0; i<result.length;i++){
-            //        db.add(result.toString());  }
-                Toast.makeText(getBaseContext(),"Your list has been saved", Toast.LENGTH_SHORT).show();
+
+        for (int i=0; i<db.getHabits().size();i++){
+               db.delete(db.getHabits().toString());
+          }
+
+
+
+                Toast.makeText(getBaseContext(),"Your item has been deleted", Toast.LENGTH_SHORT).show();
             }
         });}
 
